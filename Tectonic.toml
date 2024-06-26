@@ -1,0 +1,46 @@
+[doc]
+name = "Standing Wave Solution to Diffusion with Nonlinearty"
+bundle = "https://data1.fullyjustified.net/tlextras-2022.0r0.tar"
+
+[[output]]
+name = "standing_waves"
+type = "pdf"
+
+[[output]]
+name = "figs_surface_wavefront_KPP_fisher"
+type = "pdf"
+preamble = "_preamble_figs.tex"
+index = "figs/KPP_Fisher_wavefront.tex"
+postamble = "_postamble.tex"
+# inputs = [
+#   "_preamble_figs.tex",
+#   "figs/KPP_Fisher_wavefront.tex",
+#   "_postamble.tex",
+# ]
+
+[[output]]
+name = "figs_phase_space_KPP_fisher"
+type = "pdf"
+preamble = "_preamble_figs.tex"
+index = "figs/KPP_Fisher_phase_space.tex"
+postamble = "_postamble.tex"
+
+# inputs = [
+#   "_preamble_figs.tex",
+#   "figs/KPP_Fisher_phase_space.tex",
+#   "_postamble.tex",
+# ]
+
+[[output]]
+name = "figs_Allee_effect_reaction_term"
+type = "pdf"
+preamble = "_preamble_figs.tex"
+index = "figs/Allee_effect_reaction_term.tex"
+postamble = "_postamble.tex"
+
+[[output]]
+name = "figs_Logistic_reaction_term"
+type = "pdf"
+preamble = "_preamble_figs.tex"
+index = "figs/Logistic_growth_reaction_term.tex"
+postamble = "_postamble.tex"

@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\begin{axis}[
+    AxisStyle,
+    title={$g_0(z, c) +  g_1(z,c)/c^2$}, 
+    xlabel=$z$, ylabel=$c$]
+    \addplot3[
+        surf,
+        domain=-10:10,
+        domain y=2:5,
+    ]{1/(1 + exp(x/y)) + 1/y^2 * ln(exp(x/y)/(exp(x/y) + 1)^2)*(exp(x/y)/(exp(x/y) + 1)^2)};
+\end{axis}
+\end{tikzpicture}

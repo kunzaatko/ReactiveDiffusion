@@ -1,0 +1,40 @@
+\documentclass[a4paper, 11pt, single, leqno]{article}
+\title{Standing Wave Solution to the Diffusion PDE with a Non-linear Reaction Term}
+\author{Martin Kunz}
+\usepackage[right=1.5cm, left=1.5cm, top = 1.2cm, bottom = 1.5cm, includefoot]{geometry}
+
+\usepackage{amsmath, amssymb, mathtools, mathrsfs, amsthm, derivative, siunitx}  
+\newtheorem*{theorem}{Theorem}
+
+\usepackage{newcomputermodern}
+
+\usepackage{hyperref,cleveref}
+\usepackage[perpage, symbol*, flushmargin, hang, bottom]{footmisc}
+% NOTE: This eliminates the asterisk from use in footnote symbols. It is used in the document for stationary states...
+\DefineFNsymbols{noasterisk}{\dagger\ddagger{\dagger\dagger}{\ddagger\ddagger}\S\P\|} 
+\setfnsymbol{noasterisk}
+
+\usepackage[
+    backend=biber,
+    style=alphabetic,
+    sorting=ynt,
+]{biblatex}
+\setlength{\parskip}{.5\baselineskip plus 2pt}
+\addbibresource{resources.bib}
+\input{_acronyms.tex}
+\input{_commands.tex}
+
+\usepackage{indentfirst}
+\usepackage{float}
+
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{math, shapes, external, backgrounds, shadings, decorations.markings, positioning}
+\usepackage{tkz-euclide}
+\usepackage{import}
+\usepackage{subcaption}
+
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+\pgfkeys{/pgfplots/AxisStyle/.style={height=10cm,width=0.9\linewidth,scale only axis}}
+
+\begin{document}

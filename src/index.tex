@@ -1,0 +1,564 @@
+% FIX: Title too spread out vertically <24-06-24> 
+\maketitle \vspace{-2em} \noindent\hrulefill
+
+\section{Introduction}%
+\label{sec:introduction}
+
+The mathematical formulation of problems in biology often lead to \emph{diffusion} \acp{PDE} composed of the terms
+    \begin{equation} \label{eq:diffusion}
+            \pdv{u}{t} = D  \pdv[order={2}]{u}{x},
+    \end{equation} where \(D\) is the diffusion constant and \(u = u(x,t)\) is the value of interest, both with adequate 
+    units and dimensionality.
+It can be shown using dimensional analysis by studying the values of \(D \approx \qty{e-10}{\cm \squared \per \s}\) and 
+    typical times of information transfer in cell biology \( \Delta t \approx \qty{1}{\hour}\), that a diffusion 
+    equation composed solely of the terms in \cref{eq:diffusion} cannot be by itself responsible for information transfer 
+    between cells with the typical distances of \( \Delta x \approx\qty{1}{\milli\meter}\).
+
+This motivates the hypothesised additional \emph{reaction} term \(F(u)\) to the already present diffusion term on
+    the right hand side in the governing \ac{PDE} \begin{equation}
+        \pdv{u}{t} = D \pdv[order=2]{u}{x} + F(u).
+    \end{equation}
+This form describes the class of so called \emph{reaction-diffusion} equations.
+
+\subsection{\acs{KPP}: Restrictions of the Reaction Term}%
+\label{sub:properties-of-the-reaction-term}
+
+Often \(u\) represents a concentration\footnote{This permits the restriction of \(u\) to values in 
+    \(\left< 0,1 \right>\).} of some kind, be it a concentration of a substance within a mixture in chemistry or the 
+    population concentration of some species in ecology.
+Then, intuitively, \(F(u)\) has the role of a local reaction to the state (concentration) in a particular location 
+    within the diffusive system.
+
+These systems that are to be described with \cref{eq:diffusion} impose certain restrictions on the reaction term
+    \(F(u)\) by their physical nature.
+For instance in the example of population concentration in ecology, if the population is already high in a region, 
+    \(u \approx 1\), the additional growth in that region is suppressed, \(F(u) \approx 0\), due to the lack of 
+    resources available within the point of the system.
+In chemical systems the reactants forming the studied chemical and in ecology resources necessary for the survival of 
+    the species individuals.
+In ecology, we can even argue that this would be the result of an elevated susceptibility to predator attacks.
+Also, naturally, if there is already a low population in a region, \(u \approx 0\), there is limited possibility for
+    reproduction, which also signifies that the reaction growth is small, \(F(u) \approx 0\).
+An intuitive notion of a ``growth potential'' also suggests the sensibility of the requirement that the
+    increase of \(F(u)\) is the highest when \(u \approx 0\)\footnote{The thought behind this is that the availability of
+    necessary resources for growth is the highest when competition is the lowest, i.e.\@ \(u\approx 1\).}.
+
+In addition to technical requirements such as sufficient smoothness we thus require for 
+    \(F: \left< 0,1 \right> \to \R^{+}\), the statements glossed over and motivated in the previous paragraph
+\begin{equation}\label{eq:kpp-restrictions}
+    \begin{gathered}
+    F(0) = F(1) = 0,\\
+    F'(0) = \alpha > 0,\\
+    F'(u) < \alpha \text{ for } u \in (0, 1).
+    \end{gathered}
+\end{equation}
+\acp{PDE} of the form in \cref{eq:diffusion} with the additional restrictions in \labelcref{eq:kpp-restrictions} are called 
+    \acf{KPP} equations in honour of their inventors and popularizers.
+
+
+\subsection{The Travelling Wave Solution}%
+\label{sub:travelling-wave-solution}
+
+For the moment, consider the special solution of a \emph{travelling wave} \(u(x,t)\), which has the defining property that
+    the profile of the solution function is time independent and travels with constant velocity in relation to the 
+    variable \(x\).
+Specifically if the travelling wave coordinate is defined as \[
+    z \coloneqq x - ct,
+    \] for a given constant velocity of propagation \(c \ge 0\), it is postulated that \[
+        u(x,t) \equiv u(z) = u(x - ct).
+    \]
+The coordinate transformation \(z \coloneqq x - ct\) leads to \begin{equation}\label{eq:tw-transformation}
+    \begin{gathered}
+        \pdv{}{t} = \pdv{z}{t} \odv{}{z} = -c \odv{}{z},\\
+        \pdv[order={2}]{}{x} = \odv[order={2}]{}{z},
+    \end{gathered}
+\end{equation}
+and \cref{eq:diffusion} transforms to \begin{equation*}
+    -c \odv{u}{z} = D\odv[order={2}]{u}{z} + F(u).
+\end{equation*}
+
+As it turns out, it is be possible to determine that a travelling wave solution\footnote{Or a superposition of travelling
+    waves.} is the only possible limiting solution, i.e.\@ for \(t \to +\infty\), of a \ac{KPP} equation that is 
+    non-constant \cite{kolmogorov1937a}. 
+
+
+\section{Fisher-\ac{KPP} Equation}%
+\label{sec:fisher-kpp-equation}
+
+Now consider the special choice of \[
+    F(u) = \alpha u (1 - u),
+    \] which satisfies the requirements \labelcref{eq:kpp-restrictions} with the same notion of \(\alpha\) as previously.
+It was first proposed by Fisher in 1937 for modeling the advance of dominant favourable genes 
+    \cite{wikipedia-KPP-Fisher}.
+Notice that if we define the saturating state as \(u_{\infty} = 1\), which is in agreement with our conception of the
+    physical systems the equation represents, it is possible to rewrite the reaction term as \begin{equation}
+        \label{eq:fisher-reaction-term}
+        F(u) = \alpha u (1 - u/u_{\infty}),
+    \end{equation}
+    which is the term of logistic growth (\cref{fig:logistic-reaction-term}).
+Thus, intuitively, this equation represents a population that locally grows independently according to the laws of
+    logistic growth with the carrying capacity \(u_\infty = 1\), but to this model we are introducing the diffusion term
+    \(D\pdv[order={2}]{u}{x}\) that models the movement of the population in the region.
+
+\begin{figure}[htbp]
+    \centering
+    \input{figs/Logistic_growth_reaction_term.tex}
+    \caption{
+        The reaction term of logistic growth diffusion reaction equation.
+        We can see that it is a simple parabola, where \(0\) the saturation point \(u_{\infty}\) are the \(x\)-axis
+            intercepts and \(\alpha\) is the slope at \(u=0\).
+    }
+    \label{fig:logistic-reaction-term}
+\end{figure}
+
+The full equation is \[
+    \pdv{u}{t} = D\pdv[order={2}]{u}{x} + \alpha u (1 - u).
+\]
+By a suitable scaling \begin{equation*}
+    % \begin{gathered}
+      \tau = t/T, \quad\pdv{}{\tau} = \frac{1}{T} \pdv{}{t}, \quad \text{and}\quad
+      \chi = x/L,\quad\pdv[order={2}]{}{\chi} = \frac{1}{L^2}\pdv[order={2}]{}{x},
+  % \end{gathered}
+\end{equation*} it takes the form of \[
+\pdv{u}{\tau} = \frac{D}{L^2T}\pdv[order={2}]{u}{\chi} + \frac{\alpha}{T} u(1-u),
+\] and the choice of \[
+    T = \alpha, \quad L = \sqrt{D/\alpha},
+\] leads to the dimensionless form \begin{equation}
+\pdv{u}{\tau} = \pdv[order={2}]{u}{\chi} + u(1-u).
+\end{equation}
+
+If the system is left to evolve for a long amount of time, it is reasonable to assume that due to the diffusion term,
+    the spatial gradients will diminish, thus for \(\tau \to +\infty\), it follows that \(\pdv[order=2]{u}{\chi} \to 0\) 
+    and \[
+        \odv{u}{\tau} = u(1-u),
+    \] leading to two limiting stationary states (\(\pdv{u}{\tau} = 0\)), \(u^{*_1}=0\) unstable
+    (\(\left.\odv{}{u}(\pdv{u}{\tau})\right|_{u = 0} > 0\)) and \(u^{*_2}=1\) stable 
+        (\(\left.\odv{}{u}(\pdv{u}{\tau})\right|_{u = 0} < 0\)).
+
+Assuming the travelling wave solution \(z \coloneqq \chi - c \tau\), for some \(c > 0\), using \labelcref{eq:tw-transformation},
+    the final form of the equation is \begin{equation}
+        \label{eq:travelling-wave-odif-fisher-kpp}
+        -c\odv{u}{z} = \odv[order={2}]{u}{z} + u(1-u).
+    \end{equation}
+
+
+\subsection{Analytical Solution}%
+\label{sub:analytical_solution}
+
+First we would like to determine the integral curves in the phase-space, hence we consider the system \(u' \eqqcolon v\) 
+and \(v' = -cv -u(1-u)\) with stationary states \(\vec{p^{*_1}} = (u^{*_1}, v^{*_1}) = (0,0)\) and \(\vec{p^{*_2}}
+    = (u^{*_2}, v^{*_2}) = (1,0)\).
+Linearising around the stationary states gives \[
+    \begin{pmatrix}
+        u\\v
+    \end{pmatrix}'\!\!\!(\vec{p^*}) = 
+    \mathbb{J}(\vec{p^*}) \cdot \begin{pmatrix} u\\v \end{pmatrix} + \mathop{O}\!\begin{pmatrix} u^2 \\ v^2
+    \end{pmatrix}=
+    \left.\begin{pmatrix} 0 & 1 \\ -1 + 2u & -c \end{pmatrix}\right|_{(u,v) = \vec{p^*}}\cdot\begin{pmatrix} u\\v \end{pmatrix}
+        + \mathop{O}\!\begin{pmatrix} u^2 \\ v^2
+    \end{pmatrix},
+\] and \[
+\mathbb{J}(\vec{p^{*_1}}) = \begin{pmatrix}
+    0 & 1 \\ -1 & -c
+\end{pmatrix}, \quad 
+\mathbb{J}(\vec{p^{*_2}}) = \begin{pmatrix}
+    0 & 1 \\ 1 & -c
+\end{pmatrix}.
+\] 
+We find the eigenvectors and spectrum of the linearised system at \(\vec{p^{*_1}}\) and \(\vec{p^{*_2}}\) from the 
+    Jacobians to obtain \begin{equation}
+        \label{eq:eigenvalues-kkp-fisher}
+        \begin{gathered}
+            \lambda_{\pm}^{*_1} = (-c \pm \sqrt{c^2 - 4})/2, \\
+            \lambda_{\pm}^{*_2} = (-c \pm \sqrt{c^2 + 4})/2,
+        \end{gathered}
+    \end{equation}
+    corresponding to
+    \begin{equation*}
+        \begin{gathered}
+            \vec{\nu_{+}^{*_1}} = (c + \sqrt{c^2 - 4}, -2), \quad\vec{\nu_{-}^{*_1}} = (c - \sqrt{c^2 - 4}, -2),\\
+            \vec{\nu_{+}^{*_2}} = (-c - \sqrt{c^2 + 4}, -2),\quad \vec{\nu_{-}^{*_2}} = (c - \sqrt{c^2 + 4}, 2).
+        \end{gathered}
+    \end{equation*}
+Based on the signs of the eigenvalues, we can classify \(\vec{p^{*_1}}\) as a node and \(\vec{p^{*_2}}\) as a saddle
+    stationary point (\cref{fig:phase-portrait-kpp-fisher}).
+Note that due to \labelcref{eq:eigenvalues-kkp-fisher}, in order for the eigenvalues to be real, it is necessary that
+    \(c \ge 2\), which a condition for the existence of the travelling wave solution.
+
+\begin{figure*}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{figs/KPP_Fisher_phase_space.tex}
+    \caption{
+        Depiction of the eigenvectors of the linearised system around its stationary points in the phase-portrait with
+        \(c=2.1\).
+        Blue correspond to negative eigenvalue eigenvector axes and red to the positive eigenvalue eigenvector axis.
+        Shaded areas are not acceptable since they are not compatible with the condition \(0\le u \le 1\).
+        We can see that the only possible integral curve of the travelling wave solution must start at \(\vec{p^{*_2}}\)
+        and must be dominated in direction by the eigenvector \(\vec{\nu^{*_2}_+}\), since its corresponding eigenvalue is
+            positive and thus the ``saddle is unstable in that direction''.
+        The grey line \((\tilde{u}, \tilde{v})\) illustrates a possible path of the travelling wave in the phase-space
+            i.e.\@ the solution of \cref{eq:travelling-wave-odif-fisher-kpp}.
+        Notice that the integral curve is directed from the state with \(u = 1\) to the one where \(u = 0\),
+            which could seem unintuitive since it is travelling from the stable to the unstable stationary state of the
+            initial equation.
+        This is due to the transformation \(z \coloneqq \chi - c \tau\), which means that for higher times, \(z\) is
+            lower, and the direction of the system evolution is swapped.
+        }
+    \label{fig:phase-portrait-kpp-fisher}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \pdftex{phase-portrait-kpp-fisher}
+        \caption{
+            A numerically computed stream plot of the phase-space system. Orange verticals stand for the conditions \(0
+            \le u \le 1\). Orange markers are the stationary points of the system, cross for the unstable stationary
+            point \(\vec{p^{*_2}}\) and circle for the stable \(\vec{p^{*_1}}\).
+            }
+        \label{fig:phase-portrait-kpp-fisher-numerical}
+    \end{subfigure}%
+    \caption{%
+        The phase-portrait of the Fisher-\ac{KPP} equation for \(c = 2.1\).
+        \label{fig:phase-portrait-with-linearisation}
+    }
+\end{figure*}
+
+% TODO: Here should be note about Poincaré Bendixon <18-06-24> 
+Necessarily the integral curve of the travelling wave visits both stationary points \cite{kolmogorov1937a}.
+Then the connecting integral curve, \emph{orbit}, between the two stationary points represents the travelling wave
+solution of the diffusion-reaction system (\cref{fig:phase-portrait-kpp-fisher}).
+Also, by \cite{kolmogorov1937a}, if the support of the initial concentration is bounded, the limiting wave propagation
+    velocity is the minimal possible one, i.e.\@ \(c_{\text{min}} = 2\).
+Accounting for the transformation that lead to the dimensionless form, we have \[
+    z = \chi - c \tau = \frac{x}{\sqrt{D/\alpha}} - c\alpha t \implies \tilde{z} = z \sqrt{D/\alpha} = x - \underbrace{c \sqrt{D
+    \alpha}}_{\tilde{c}} t \implies \tilde{c}_{\text{min}} = 2 \sqrt{D \alpha},
+    \] where \(\tilde{c}\) is the velocity of propagation of the travelling wave in the physical \ac{PDE}.
+Thus, both the population growth in regions of small concentration and the intensity of diffusion contribute to a faster 
+    rate of propagation of the travelling wave in the limit.
+
+\subsection{The Shape of the Wavefront}%
+\label{sub:shape-of-wavefront}
+
+Now we know that the Fisher-\ac{KPP} equation has a travelling wave solution for \(c \ge 2\) and the approximation to the
+    integral curve in the phase-space has been determined.
+Further, we would like to find the shape of the wavefront, which is also presumably dependent on \(c\).
+
+For this, the knowledge of the initial state of the concentration is necessary.
+A sufficiently general initial state for this is that of a population inhabiting one half-line, \(u = 1\), and the
+    opposite half-line being uninhabited, \(u = 0\).
+Between these half-lines, there is some interval \(\chi \in (a,b)\), \(a < 0,\, b > 0\), where there is an intermediate state of a non-fully saturated 
+    population, \(0<u<1\), represented by the function \(u_0(\chi)\).
+This is a good choice, because of the expectation of the solution leading from an initial state containing more of such 
+    population edges such as \(u_0\), evolving into some superposition of the one for the single edge variant, we are
+    about to discuss.
+
+% TODO: Here, figure of the initial state and the "superposition of an initial state" <25-06-24> 
+
+We are working with the assumption of a travelling wave.
+This means the central equation of interest to us when determining the shape of the wavefront is the transformed
+    \cref{eq:travelling-wave-odif-fisher-kpp}
+    \begin{equation}
+        \label{eq:travelling-wave-odif}
+        0 = \odv[order={2}]{u}{z} + c \odv{u}{z} + u(1-u).
+    \end{equation}
+This travelling wave solution travels from right to left, with our initial conditions, and due to that the regions of 
+    lower concentration on the left in the sense of the \(\chi\) axis are being continuously eliminated by it.
+Thus in the limit, when \(\tau \to +\infty\) it transforms to the constant function \(u \equiv 1\), which corresponds 
+    with \(u(-\infty) = 1\)\footnote{Notice the sign of \(z\) vs.\@ the sign of \(\tau\).}.
+Similarly in the beginning, \(\tau \to -\infty\), the wavefront tends to \(\chi \to +\infty \) and it follows that
+    \( u(+\infty) = 0\).
+For simplification of the manipulation, it is strategic to retransform the \cref{eq:travelling-wave-odif}
+    with the scaled coordinate \(\xi = z/c\) and denote \(g(\xi) = u(c\xi) = u(z)\), resulting in the equation
+    \begin{equation}
+        \label{eq:travelling-wave-odif-retransform}
+        0 = c^{-2}\odv[order={2}]{g}{\xi} + \odv{g}{\xi} + g(1-g).
+    \end{equation}
+Now the term with \(c^{-2} \eqqcolon \varepsilon \in (0, \tfrac{1}{4})\) can be considered a small perturbation in the 
+    \cref{eq:travelling-wave-odif-retransform} and we can expand the solution \(g\) as \[
+    g(\xi, \varepsilon) \coloneqq g_0(\xi) + \varepsilon g_1(\xi) + \mathop{o}(\varepsilon^2).
+\] 
+Since \(u(-\infty) = g(-\infty) = 1\), it follows that \(g_0(-\infty) = 1\) and \(g_1(-\infty) = 0\), similarly
+    \(g_0(+\infty) = 0\) and \(g_1(+\infty) = 0\).
+Inserting the expansion into \cref{eq:travelling-wave-odif-retransform} yields \begin{equation}
+    \label{eq:travelling-wave-odif-retransform-expanded}
+    \varepsilon^{0}[g_0'(\xi) + g_0(\xi)(1 - g_0(\xi))] + \varepsilon [g_0''(\xi) + g_1'(\xi) + g_1(\xi)(1 - 2g_0(\xi))] 
+    + \mathop{o}(\varepsilon^2) = 0.
+\end{equation}
+
+Following up on the perturbation expansion, we can solve for \(g_0\) using the least perturbed power 
+    \(\varepsilon^{0}\), i.e. \(g_0\) by selecting the terms of the expanded equation 
+    \cref{eq:travelling-wave-odif-retransform-expanded} \[
+        g_0'(\xi) + g_0(\xi)(1 - g_0(\xi)) = 0,
+    \] which is a separable ordinary differential equation such that \[
+    \frac{g_0'(\xi)}{g_0(\xi)(1 - g_0(\xi))} = -1 \implies -\xi = \int \frac{\odif{g_0}}{g_0(\xi)(1 - g_0(\xi))} = \int
+    \frac{\odif{g_0}}{g_0(\xi)} + \int \frac{\odif{g_0}}{1 - g_0(\xi)} = \ln \left( \frac{g_0(\xi)}{1 - g_0(\xi)}
+    \right) + C.\footnote{Notice that \(g_0 \in (0,1)\) guarantees that the logarithm is real and finite.}
+    \] % FIX: Footnote is does not fit on the page <25-06-24> 
+Expressing for \(g_0\) gives the result \begin{equation}
+    \label{eq:g-0}
+    g_0(\xi) = \frac{1}{1 + e^{\xi + C}}.
+\end{equation}
+We can choose \(C\) to match the initial condition at \(z = 0 \implies \xi = 0\).
+Should we consider a symmetry in the wavefront shape, we can notice that necessarily \(g_0(0) = 1/2\) meaning that \(C
+    = 0\).
+Since are interested only in the shape, we can alleviate the translation by choosing \(C=0\).
+
+Similarly for solving \(g_1\) from terms with \(\varepsilon\), using the derived form of \[
+    g_0(\xi) = \frac{1}{1 + e^{\xi}}, \quad g_0''(\xi) = \frac{e^{\xi} (e^{\xi} - 1)}{(e^{\xi} + 1)^3},
+    \] we get the equation 
+    \begin{align*}
+        g_1'(\xi) + g_1(\xi)(1 - 2g_0(\xi)) &= -g_0''(\xi) \\
+        g_1'(\xi) + g_1(\xi)\underbrace{\frac{e^{\xi} - 1}{e^{\xi} + 1}}_{\eqqcolon p(\xi)} &= \underbrace{\frac{e^{\xi}(1
+        - e^{\xi})}{(1 + e^{\xi})^3}}_{\eqqcolon q(\xi)}.
+    \end{align*}
+For this equation, we can use the method of an integration factor.
+\begin{theorem}[Integration Factor]
+  Let \(p,q \in C(\R)\) and \(P'(x) = p(x)\), \(S'(x) = q(x) e^{P(x)}\).
+  Then all the solutions to the ordinary differential equation \[
+      f'(x) + p(x) f(x) = q(x),
+  \] have the form \[
+  f(x) = e^{-P(x)} (S(x) + C),
+  \] where \(C \in \R\).
+\end{theorem}
+\begin{proof}
+    See for instance \cite{krbalek2019}.
+\end{proof}
+Accordingly, we can solve for 
+    \begin{equation*}
+        P'(\xi) = p(\xi) = \frac{e^{\xi} - 1}{e^{\xi} + 1},
+    \end{equation*}
+    as
+    \begin{align*}
+        \int P'(\xi) \odif{\xi} &= \int \frac{e^{\xi} - 1}{e^{\xi} + 1} \odif{\xi} = \xi - \int \frac{2}{e^{\xi}
+        + 1}\odif{\xi} = \left\{\begin{gathered}
+           u \coloneqq e^{\xi} \\
+           \odif{u} = e^{\xi} \odif{\xi}
+   \end{gathered} \right\} = \xi - 2 \left(  \int\frac{1}{u} \odif{u} - \int\frac{1}{u + 1} \odif{u}\right) \\
+                                &= \xi - 2 \ln(u) + 2 \ln(u + 1) = 2 \ln (e^{\xi} + 1)
+                                - \xi = P(\xi),
+    \end{align*}
+    and
+    \begin{equation*}
+        S'(\xi) = q(\xi) \exp\{P(\xi)\} = \frac{e^{\xi}(1 - e^{\xi})}{(1 + e^{\xi})^3} \exp \left\{
+        2 \ln(e^{\xi} + 1) - \xi\right\} = \frac{1 - e^{\xi}}{1 + e^{\xi}} = -p(\xi),
+    \end{equation*}
+    hence \begin{equation*}
+      P(\xi) = -S(\xi) = \xi - 2 \ln(u) + 2 \ln(u + 1) = 2 \ln (e^{\xi} + 1) - \xi,
+    \end{equation*}
+    and the solution is \begin{equation}
+      \label{eq:g-1}
+      g_1(\xi) = \exp \left\{ \xi - 2 \ln(e^{\xi} + 1) \right\} \left( \xi - 2 \ln (e^{\xi} + 1) + C \right) = \left(
+      \ln \left\{ \frac{e^{\xi}}{(e^{\xi} + 1)^2} \right\} + C \right) \frac{e^{\xi}}{(e^{\xi} + 1)^2}.
+    \end{equation}
+The limiting values determine \(C\) to be \(0\)
+
+Combining the results of \cref{eq:g-0,eq:g-1} the full expanded solution of the approximate shape is \begin{equation}
+  \label{eq:expanded-solution}
+  \begin{aligned}
+      g(\xi, \varepsilon) &= \frac{1}{1 + e^{\xi}} + \varepsilon \ln \left\{ \frac{e^{\xi}}{(e^{\xi} + 1)^2} \right\}
+    \frac{e^{\xi}}{(e^{\xi} + 1)^2} + \mathop{o}(\varepsilon^2) \\
+    &= \frac{1}{1 + e^{z/c}} + 1/c^2 \ln \left\{ \frac{e^{z/c}}{(e^{z/c} + 1)^2} \right\}
+    \frac{e^{z/c}}{(e^{z/c} + 1)^2} + \mathop{o}(c^{-4}).
+  \end{aligned}
+\end{equation}
+
+\begin{figure}[htbp]
+    \centering
+    \input{figs/KPP_Fisher_wavefront.tex}
+    \caption{
+        The approximation of the wavefront dependent on the value of \(c \in (2, 5)\). 
+        Notice that the faster the wave propagation velocity, the wider the region of the wavefront with values further
+            from the saturation state \(1\) and stationary state \(0\).
+    }
+    \label{fig:wavefront-profile}
+\end{figure}
+
+% TODO: Shape of the wavefront simulation <18-06-24> 
+
+\section{Reaction-Diffusion \ac{PDE} with a Cubic Non-linearity}%
+\label{sec:reaction-diffusion-cubic-nonlin}
+
+A different choice for the reaction term in the \ac{KPP} equation that is often used in the same contexts is the term
+    \begin{equation}
+        \label{eq:allee-reaction-term}
+        F(u) = \alpha u \left(1 - \frac{u}{u_\infty}\right)\left(\frac{u - u_{-}}{u_{-}}\right).
+    \end{equation}
+Similarly to the previous \namecref{sec:fisher-kpp-equation}, where on its own the reaction term in 
+    \cref{eq:fisher-reaction-term} was equivalent to the model of logistic growth, \cref{eq:allee-reaction-term} is
+    also studied on its own.
+It is known as the Allee effect and was first described in the 1930s by Warder Clyde Allee, who found that some species 
+    exhibit improved survival and fitness at higher population densities \cite{wikipedia-Allee-effect}.
+Same as before, \(u_{\infty}\) can be understood as the saturating point or the carrying capacity of the habitat,
+    \(\alpha\) can be understood as the intrinsic growth rate and the new coefficient \(u_{-}\) is the critical
+    population size and represents the boundary under which the population growth is negative.\footnote{%
+    Beware that \(\alpha\) no longer has the interpretation as in the conditions of the \ac{KPP} equation, as stated in 
+        \cref{eq:kpp-restrictions}.
+    In fact the second and third restriction is no longer valid.
+    % In fact if the critical population size is \(u_{-} < 0\) (thus the growth is only positive for any possible state), 
+    %     \(\alpha < 0\) and \(-\alpha\) plays the role of \(u=0\) derivative in the conditions. 
+    % In order for the conditions to be satisfied, it must be that \(\mathop{sgn}(u_{-}) = \mathop{sgn}(\alpha).\)
+    In order for the situation to correspond to a physical possibility, it must be that \(\mathop{sgn}(u_{-}) = 
+        \mathop{sgn}(\alpha).\)
+    }
+This can mean that we can model a situation, where a population is so sparsely distributed in a local region, that the
+    reproduction becomes difficult and the population in that area declines.
+    The scenario described happens for \(u_{-} > 0\) (\cref{fig:allee-effect-reaction-term}).
+% TODO: More motivation behind the Allee effect. Interpretation and intuitive reasoning. <25-06-24> 
+
+\begin{figure}[htbp]
+    \centering
+    \input{figs/Allee_effect_reaction_term.tex}
+    \caption{
+        The reaction term of the Allee effect diffusion-reaction model with carrying capacity of \(u_{\infty} = 1\).
+        The Allee effect is often categorized by its shape.
+        In red and blue, the Allee effect would be called strong since the impact of a low concentration to the 
+            population growth is so significant, that the population declines in states of low concentration.
+        The minimal concentration for growth to appear is for blue \(u = 0.1\) and for red \(u = 0.3\).
+        In purple and green, the Allee effect would be called weak since the growth increases with concentration near \(u
+            = 0\), but the population never declines.
+    }
+    \label{fig:allee-effect-reaction-term}
+\end{figure}
+
+The same transformations as in \cref{sec:fisher-kpp-equation} \begin{gather*}
+    \tau = t/T,\, T = 1/\alpha, \\
+    \chi = x/L,\,L=\sqrt{D/\alpha},
+    \end{gather*} lead to the dimensionless form of \begin{equation}
+        \label{eq:allee-transformation}
+        \pdv{u}{\tau} = \pdv[order=2]{u}{\chi} + u (1 - u ) \left(\frac{u - u_{-}}{u_{-}}\right).
+    \end{equation}
+But this time we do not assume that \(\alpha > 0\), so this scaling is possible only under this additional condition 
+    since we require \(L \in \R\).
+Anyhow this condition for \(\alpha > 0 \implies u_{-} > 0\) is more interesting since it is not as similar in the
+    dynamics\footnote{As can be seen from \cref{fig:allee-effect-reaction-term,fig:logistic-reaction-term}, the shape
+    of the reaction term is more different in shape from the logistic reaction term, the greater \(u_{-}\) is.} as the
+    case of the Fisher-\ac{KPP} equation.
+
+\subsection{Strong Allee Effect}%
+\label{sub:strong-allee-effect}
+
+In this section we will assume that \(1 > u_{-} > 0\) and \(\alpha > 0\), thus the Allee effect is strong
+    (\cref{fig:allee-effect-reaction-term}).
+
+When \(\tau \to +\infty\), we assume the spatial gradients to be minimal, \(\pdv[order=2]{u}{\chi} \approx 0\), and so \[
+         \odv{u}{\tau} \approx u(1 - u)\left(\frac{u - u_{-}}{u_{-}}\right),
+    \] hence the stationary states of the system are \(u^{*_1} = 0\), \(u^{*_2} = u_{-}\) and \(u^{*_3} = 1\).
+For stability, we use the derivative \begin{equation}
+    \label{eq:allee-reaction-derivative}
+    \odv{}{u}\left(\left.\pdv{u}{\tau}\right|_{\tau \to +\infty}\right) = (1 - u)\left( \frac{u - u_{-}}{u_{-}} \right) - u \left( \frac{u - u_{-}}{u_{-}} \right)
+    + \frac{u(1 - u)}{u_{-}} = \begin{cases}
+                -1 < 0 & u = 0 \\
+                1 - u_{-} > 0 & u = u_{-} \\
+                1 - 1/u_{-} > 0  & u = 1
+        \end{cases}
+    \end{equation}
+    then in the order of concentration \(u^{*_1} = 0\) is necessarily stable unlike the previous case, 
+    \(u^{*_2} = u_{-}\) is unstable and \(u^{*_3} = 1\)\footnote{%
+    The stability would be opposite, i.e.\@ unstable, for \(u_{- }< 0\). 
+    This would inherently mean that the population would decline to \(0\) through time even by the local effect of the
+        reaction term and no there would certainly be no possibility of a travelling wave to develop.
+    This does not mean that saturation does not occur for \(u_{-} < 0\) though, because as stated in the previous 
+        paragraph we are not allowed to perform the transformation in \cref{eq:allee-transformation} if 
+        \(u_{-} < 0 \implies \alpha < 0\).
+    For this reason the only case that we will be able to study with this dimensionless form is one restricted by the
+        conditions of the strong Allee effect occurrence.}.
+
+Let us now consider the solution in the form of a travelling wave \(z \coloneqq \chi - c \tau\), so
+    \cref{eq:allee-transformation} becomes
+    \begin{equation}
+        0 = \odv[order=2]{u}{z} + c \odv{u}{z} + u(1-u)\left( \frac{u - u_{-}}{u_{-}}\right).
+    \end{equation}
+If we denote \(v \coloneqq \odv{u}{z}\) we get the system of first order \acp{ODE} \[
+        \begin{pmatrix}
+            u \\ v
+        \end{pmatrix}' = \begin{pmatrix}
+            v \\ -cv - u(1-u)\left( \frac{u - u_{-}}{u_{-}} \right)
+        \end{pmatrix},
+    \] with stationary states \(\vec{p^{*_1}} = (u^{*_1}, v^{*_1}) = (0,0)\), \(\vec{p^{*_2}} = (u^{*_2}, v^{*_2} ) = (u_{-}, 0)\)
+    and \(\vec{p^{*_3}} = (u^{*_3}, v^{*_3} ) = (1, 0)\).
+Linearising the system using around stationary states gives \cref{eq:allee-reaction-derivative} gives \begin{equation}
+    \begin{aligned}
+    \begin{pmatrix}
+        u \\ v
+    \end{pmatrix}'\!\!\!(\vec{p^*}) &= 
+    \mathbb{J}(\vec{p^*}) \cdot \begin{pmatrix} u\\v \end{pmatrix} + \mathop{O}\!\begin{pmatrix} u^2 \\ v^2
+\end{pmatrix} \\[0.5em]
+&= \left.\begin{pmatrix}
+    0 & 1 \\
+    (1 - u)\left( \frac{u - u_{-}}{u_{-}} \right) - u \left( \frac{u - u_{-}}{u_{-}} \right)
+    + \frac{u(1 - u)}{u_{-}} & -c
+    \end{pmatrix}\right|_{(u,v) = \vec{p^*}}\cdot\begin{pmatrix} u \\ v \end{pmatrix}
+    + \mathop{O}\!\begin{pmatrix} u^2 \\ v^2 \end{pmatrix},
+    \end{aligned}
+    \end{equation}
+    and evaluating the Jacobian at the stationary states gives \begin{equation}
+       \mathbb{J}(\vec{p^{*_1}}) = \begin{pmatrix}
+           0 & 1 \\
+           1 & -c
+       \end{pmatrix}, \quad \mathbb{J}(\vec{p^{*_2}}) = \begin{pmatrix}
+           0 & 1 \\
+           u_{-} - 1 & -c
+       \end{pmatrix},\quad \mathbb{J}(\vec{p^{*_3}}) = \begin{pmatrix}
+            0 & 1 \\
+            1/u_{-} - 1 & -c
+       \end{pmatrix}.
+    \end{equation}
+We now need to determine the types of the stationary states to evaluate the possible integral curves.
+For this we need the spectral properties, \begin{equation}
+    \label{eq:eigvalues-allee}
+   \begin{gathered}
+        \lambda^{*_1}_{\pm} = (-c \pm \sqrt{c^2 + 4})/2, \\
+        \lambda^{*_2}_{\pm} = (-c \pm \sqrt{c^2 - 4(1 - u_{-}}))/2, \\
+        \lambda^{*_3}_{\pm} = (-c \pm \sqrt{c^2 - 4(1 - 1/u_{-}}))/2, 
+    \end{gathered}
+\end{equation}
+    corresponding to \begin{equation} 
+        \begin{gathered}
+            \vec{\nu^{*_1}_{+}} = (-c - \sqrt{c^2 + 4}, -2), \quad \vec{\nu^{*_1}_{-}} = (c - \sqrt{c^2 + 4},2), \\
+            \vec{\nu^{*_2}_{+}} = (c + \sqrt{c^2 - 4(u_{-}-1)}, 2(u_{-} - 1)), \quad \vec{\nu^{*_2}_{-}} = (c
+            - \sqrt{c^2 - 4(u_{-} - 1)}, 2(u_{-} - 1), \\
+            \vec{\nu^{*_3}_{+}} = (c + \sqrt{c^2 - 4(1/u_{-} - 1)}, 2(1/u_{-} - 1)), \quad \vec{\nu^{*_3}_{-}} = (c - \sqrt{c^2 - 4(1/u_{-} - 1)}, 2(1/u_{-} - 1)).
+        \end{gathered}
+    \end{equation}    
+
+Eigenvalues, \cref{eq:eigvalues-allee}, \(\lambda^{*_2}_{\pm}\) are real if \(c \ge 2 \sqrt{1 - u_{-}}\) and 
+        \(\lambda^{*_3}_{\pm}\) are real if \(c^2 \ge 4(1 - 1/u_{-})\), which is always true under the condition for 
+        \(u_{-}\) stated in this section.
+This leads to the restriction to the propagation speed \(c_{\text{min}}\) of the travelling wave solution.
+Notice that \(c_{\text{min}}\) for the Allee effect reaction term is lower than that for the \ac{KPP}-Fisher equation,
+    so the diffusion mixed Allee effect equation allows for lower propagation speeds since we are ``suppressing'' some 
+    of the growth with it.
+
+It is clear from the eigenvalues, \cref{eq:eigvalues-allee}, that \(\vec{p^{*_2}}\) and \(\vec{p^{*_3}}\) are always
+    saddle points whereas \(\vec{p^{*_2}}\) is a stable node.
+
+\begin{figure}[htbp]
+\centering
+\pdftex{phase-portrait-kpp-allee}
+\caption{
+    A numerically computed stream plot of the phase-space system. Orange verticals stand for the conditions \(0
+    \le u \le 1\). Orange markers are the stationary points of the system, cross for the saddle points \(\vec{p^{*_1}}\)
+    and \(\vec{p^{*_3}}\) and circle for the node \(\vec{p^{*_2}}\).
+    }
+\label{fig:phase-portrait-kpp-allee-numerical}
+\end{figure}%
+
+% TODO: Eigenvalue plot linearisation <26-06-24> 
+% TODO: Poincaré Bendixon <26-06-24> 
+
+
+% \subsection{Analytical solution}%
+% \label{sub:analytical-solution}
+
+
+% \subsection{The Shape of the Wavefront}%
+% \label{sub:shape-of-wavefront-cubic}
+
+% TODO: Shape of the wavefront perturbation calculation <18-06-24> 
+% TODO: Shape of the wavefront simulation <18-06-24> 
+
+% TODO: Comparison <18-06-24> 
+
+\printbibliography
