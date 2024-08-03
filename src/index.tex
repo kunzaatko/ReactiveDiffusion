@@ -41,7 +41,7 @@ Also, naturally, if there is already a low population in a region, \(u \approx 0
     reproduction, which also signifies that the reaction growth is small, \(F(u) \approx 0\).
 An intuitive notion of a ``growth potential'' also suggests the sensibility of the requirement that the
     increase of \(F(u)\) is the highest when \(u \approx 0\)\footnote{The thought behind this is that the availability of
-    necessary resources for growth is the highest when competition is the lowest, i.e.\@ \(u\approx 1\).}.
+    necessary resources for growth is the highest when competition is the lowest, i.e.\@ \(u\approx 0\).}.
 
 In addition to technical requirements such as sufficient smoothness we thus require for 
     \(F: \left< 0,1 \right> \to \R^{+}\), the statements glossed over and motivated in the previous paragraph
@@ -59,7 +59,7 @@ In addition to technical requirements such as sufficient smoothness we thus requ
 \subsection{The Travelling Wave Solution}%
 \label{sub:travelling-wave-solution}
 
-For the moment, consider the special solution of a \emph{travelling wave} \(u(x,t)\), which has the defining property that
+For a moment, consider the special solution of a \emph{travelling wave} \(u(x,t)\), which has the defining property that
     the profile of the solution function is time independent and travels with constant velocity in relation to the 
     variable \(x\).
 Specifically if the travelling wave coordinate is defined as \[
@@ -77,7 +77,7 @@ and \cref{eq:diffusion} transforms to \begin{equation*}
     -c \odv{u}{z} = D\odv[order={2}]{u}{z} + F(u).
 \end{equation*}
 
-As it turns out, it is be possible to determine that a travelling wave solution\footnote{Or a superposition of travelling
+As it turns out, it is possible to determine that a travelling wave solution\footnote{Or a superposition of travelling
     waves.} is the only possible limiting solution, i.e.\@ for \(t \to +\infty\), of a \ac{KPP} equation that is 
     non-constant \cite{kolmogorov1937a}. 
 
@@ -85,27 +85,29 @@ As it turns out, it is be possible to determine that a travelling wave solution\
 \section{Fisher-\ac{KPP} Equation}%
 \label{sec:fisher-kpp-equation}
 
-Now consider the special choice of \[
+Now consider the special choice for the reaction term of \[
     F(u) = \alpha u (1 - u),
-    \] which satisfies the requirements \labelcref{eq:kpp-restrictions} with the same notion of \(\alpha\) as previously.
+    \] which satisfies the requirements in \labelcref{eq:kpp-restrictions} with the same notion of \(\alpha\) as 
+    previously.
 It was first proposed by Fisher in 1937 for modeling the advance of dominant favourable genes 
     \cite{wikipedia-KPP-Fisher}.
 Notice that if we define the saturating state as \(u_{\infty} = 1\), which is in agreement with our conception of the
-    physical systems the equation represents, it is possible to rewrite the reaction term as \begin{equation}
+    physical systems, where the variable \(u\) represents a proportion of the population, it is possible to rewrite the 
+    reaction term as \begin{equation}
         \label{eq:fisher-reaction-term}
         F(u) = \alpha u (1 - u/u_{\infty}),
     \end{equation}
     which is the term of logistic growth (\cref{fig:logistic-reaction-term}).
 Thus, intuitively, this equation represents a population that locally grows independently according to the laws of
     logistic growth with the carrying capacity \(u_\infty = 1\), but to this model we are introducing the diffusion term
-    \(D\pdv[order={2}]{u}{x}\) that models the movement of the population in the region.
+    \(D\pdv[order={2}]{u}{x}\) that models the migration of the population in the region.
 
 \begin{figure}[htbp]
     \centering
     \input{figs/Logistic_growth_reaction_term.tex}
     \caption{
-        The reaction term of logistic growth diffusion reaction equation.
-        We can see that it is a simple parabola, where \(0\) the saturation point \(u_{\infty}\) are the \(x\)-axis
+        The reaction term of logistic growth diffusion-reaction equation.
+        We can see that it is a simple parabola, where \(0\) and the saturation point \(u_{\infty}\) are the \(x\)-axis
             intercepts and \(\alpha\) is the slope at \(u=0\).
     }
     \label{fig:logistic-reaction-term}
