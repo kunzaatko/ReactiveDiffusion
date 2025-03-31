@@ -33,6 +33,11 @@
 \usepackage{import}
 \usepackage{subcaption}
 
+
+\usepackage[nodayofweek]{datetime}
+\newdate{date}{26}{06}{2024}
+\date{\displaydate{date}}
+
 \captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
 \renewcommand\thesubfigure{(\alph{subfigure})}
 \pgfkeys{/pgfplots/AxisStyle/.style={height=10cm,width=0.9\linewidth,scale only axis}}
