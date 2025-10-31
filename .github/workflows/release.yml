@@ -1,6 +1,5 @@
 ---
 name: "Create Tagged Release with PDF"
-
 on:
   push:
     tags:
@@ -23,7 +22,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           biber-version: '2.17'
-
 
       - name: Build protocol
         working-directory: .
